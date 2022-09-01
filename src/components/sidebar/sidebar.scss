@@ -46,6 +46,9 @@
 
         &:hover {
           background-color: #ece8ff;
+          span {
+            transform: translateX(4px);
+          }
         }
 
         .icon {
@@ -58,6 +61,7 @@
           font-weight: 600;
           color: #888;
           margin-left: 10px;
+          transition: all 0.2s ease;
         }
       }
     }
