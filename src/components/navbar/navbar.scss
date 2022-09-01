@@ -18,6 +18,7 @@
       align-items: center;
       border: 0.5px solid lightgray;
       padding: 3px;
+      transition: all 0.2s ease-in;
 
       input {
         border: none;
@@ -28,6 +29,14 @@
           font-size: 12px;
         }
       }
+    }
+
+    .b-shadow {
+      transform: scale(1.02);
+      border: 1px solid lightgray;
+      box-shadow: 0px 11px 15px 0px rgb(0 0 0 / 10%);
+      -webkit-box-shadow: 0px 11px 15px 0px rgb(0 0 0 / 10%);
+      -moz-box-shadow: 0px 11px 15px 0px rgb(0 0 0 / 10%);
     }
 
     .items {

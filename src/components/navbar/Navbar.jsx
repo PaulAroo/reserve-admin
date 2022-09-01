@@ -6,13 +6,21 @@ import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlin
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import { useRef, useState } from "react";
 
 function Navbar() {
+  const [searchInputFocus, setSearchInputFocus] = useState(false);
+
   return (
     <div className="navbar">
       <div className="wrapper">
-        <div className="search">
-          <input type="text" placeholder="Search..." />
+        <div className={`search ${searchInputFocus ? "b-shadow" : ""}`}>
+          <input
+            onFocus={() => setSearchInputFocus(true)}
+            onBlur={() => setSearchInputFocus(false)}
+            type="text"
+            placeholder="Search..."
+          />
           <SearchOutlinedIcon />
         </div>
         <div className="items">
