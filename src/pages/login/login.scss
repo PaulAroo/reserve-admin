@@ -1,0 +1,42 @@
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #38384c;
+}
+
+form {
+  padding: 1rem;
+  background: whitesmoke;
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    input {
+      padding-right: 2rem;
+      padding-left: 0.5rem;
+    }
+  }
+  > p {
+    color: red;
+  }
+}
+
+.pass {
+  position: relative;
+
+  span {
+    cursor: pointer;
+    display: inline-flex;
+    position: absolute;
+    top: 14%;
+    right: 0.8rem;
+    height: fit-content;
+    font-size: 1.3rem;
+  }
+}
