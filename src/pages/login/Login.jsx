@@ -18,15 +18,23 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // dispatch({ type: "LOGIN_START" });
-    // try {
-    //   const res = await axios.post("/auth/login", userDetails);
-    //   dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-    //   navigate("/");
-    // } catch (err) {
-    //   console.log(err);
-    //   dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
-    // }
+    dispatch({ type: "LOGIN_START" });
+    try {
+      const res = await axios.post("/auth/login", userDetails);
+      if (res.data.isAdmin) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+        navigate("/");
+      } else {
+        dispatch({
+          type: "LOGIN_FAILURE",
+          payload: { message: "You are not authorized" },
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      const errObj = err.response.data || err;
+      dispatch({ type: "LOGIN_FAILURE", payload: errObj });
+    }
   };
 
   const handleChange = (e) => {
