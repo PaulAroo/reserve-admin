@@ -1,11 +1,44 @@
-import "./new.scss";
+import "./newuser.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import axios from "axios";
+import axiosInstance from "../../axios";
+import { useNavigate } from "react-router-dom";
 
-function New({ inputs, title }) {
+function NewUser({ inputs, title }) {
+  const navigate = useNavigate();
   const [file, setFile] = useState("");
+  const [userInfo, setUserinfo] = useState({});
+
+  const handleChange = (e) => {
+    setUserinfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const imgData = new FormData();
+    imgData.append("file", file);
+    imgData.append("upload_preset", "upload");
+    try {
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/starthrills/image/upload",
+        imgData
+      );
+      const { url } = uploadRes.data;
+
+      const newUser = {
+        ...userInfo,
+        img: url,
+      };
+
+      const res = await axiosInstance.post("/auth/register", newUser);
+      navigate("/users");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="new">
@@ -27,9 +60,9 @@ function New({ inputs, title }) {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="formInput">
-                <label htmlFor="file">
+                <label className="imgLabel" htmlFor="file">
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
@@ -43,7 +76,13 @@ function New({ inputs, title }) {
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    id={input.id}
+                    onChange={handleChange}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    required
+                  />
                 </div>
               ))}
               <button>Send</button>
@@ -55,4 +94,4 @@ function New({ inputs, title }) {
   );
 }
 
-export default New;
+export default NewUser;
