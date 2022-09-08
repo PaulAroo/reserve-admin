@@ -1,15 +1,13 @@
-import { useState } from "react";
-import { userInputs } from "../../formSource";
-import { useNavigate } from "react-router-dom";
-
 import "./newuser.scss";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import { useState } from "react";
 import axios from "axios";
 import axiosInstance from "../../axios";
-import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import { useNavigate } from "react-router-dom";
 
-function NewUser() {
+function NewUser({ inputs, title }) {
   const navigate = useNavigate();
   const [file, setFile] = useState("");
   const [userInfo, setUserinfo] = useState({});
@@ -48,7 +46,7 @@ function NewUser() {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add new User</h1>
+          <h1>{title}</h1>
         </div>
         <div className="bottom">
           <div className="left">
@@ -68,7 +66,6 @@ function NewUser() {
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
-                  accept="image/*"
                   type="file"
                   id="file"
                   onChange={(e) => setFile(e.target.files[0])}
@@ -76,7 +73,7 @@ function NewUser() {
                 />
               </div>
 
-              {userInputs.map((input) => (
+              {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
                   <input

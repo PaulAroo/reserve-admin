@@ -6,6 +6,9 @@ const INITIAL_STATE = {
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches,
 };
+// const INITIAL_STATE = {
+//   darkMode: false,
+// };
 
 export const DarkModeContext = createContext(INITIAL_STATE);
 

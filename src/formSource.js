@@ -79,6 +79,12 @@ export const hotelInputs = [
     type: "text",
     placeholder: "100",
   },
+  {
+    id: "rating",
+    label: "Rating",
+    type: "text",
+    placeholder: "1 to 5",
+  },
 ];
 
 export const roomInputs = [

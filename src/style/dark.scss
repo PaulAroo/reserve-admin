@@ -68,5 +68,34 @@
   form {
     background-color: transparent;
     color: white;
+
+    label {
+      color: white;
+    }
+  }
+
+  .mui_rad {
+    color: white;
+
+    label span:first-child svg:first-child {
+      fill: whitesmoke;
+    }
+
+    label span:first-child input:checked + span:first-child {
+      svg:first-child {
+        fill: red;
+      }
+    }
+  }
+
+  .mui_autocomplete {
+    color: white;
+    svg {
+      fill: white;
+    }
+
+    fieldset {
+      border-color: white;
+    }
   }
 }
