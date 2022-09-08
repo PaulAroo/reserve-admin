@@ -1,91 +1,83 @@
-import "./newuser.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import axios from "axios";
-import axiosInstance from "../../axios";
+import { roomInputs } from "../../formSource";
+
+import "./newroom.scss";
+import useFetch from "../../customHooks/useFetch";
+import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../components/sidebar/Sidebar";
+import axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 
-function NewUser({ inputs, title }) {
+function NewRoom() {
   const navigate = useNavigate();
-  const [file, setFile] = useState("");
-  const [userInfo, setUserinfo] = useState({});
+  const [roomInfo, setRoomInfo] = useState({});
+  const [hotelId, setHotelId] = useState(undefined);
+  const [rooms, setRooms] = useState("");
+
+  const { data, loading, error } = useFetch("/hotels");
 
   const handleChange = (e) => {
-    setUserinfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    setRoomInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgData = new FormData();
-    imgData.append("file", file);
-    imgData.append("upload_preset", "upload");
+    const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
     try {
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/starthrills/image/upload",
-        imgData
-      );
-      const { url } = uploadRes.data;
-
-      const newUser = {
-        ...userInfo,
-        img: url,
-      };
-
-      const res = await axiosInstance.post("/auth/register", newUser);
-      navigate("/users");
-    } catch (error) {
-      console.log(error);
+      await axios.post(`/rooms/${hotelId}`, { ...roomInfo, roomNumbers });
+      navigate("/rooms");
+    } catch (err) {
+      console.log(err);
     }
   };
 
+  console.log(roomInfo);
   return (
-    <div className="new">
+    <div className="newRoom">
       <Sidebar />
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>{title}</h1>
+          <h1>Add New Room</h1>
         </div>
         <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
           <div className="right">
             <form onSubmit={handleSubmit}>
-              <div className="formInput">
-                <label className="imgLabel" htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div>
-
-              {inputs.map((input) => (
+              {roomInputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
                   <input
                     id={input.id}
-                    onChange={handleChange}
                     type={input.type}
                     placeholder={input.placeholder}
-                    required
+                    onChange={handleChange}
                   />
                 </div>
               ))}
-              <button>Send</button>
+              <div className="formInput">
+                <label>Rooms</label>
+                <textarea
+                  onChange={(e) => setRooms(e.target.value)}
+                  placeholder="give comma between room numbers."
+                />
+              </div>
+              <div className="formInput">
+                <label>Choose a hotel</label>
+                <select
+                  id="hotelId"
+                  onChange={(e) => setHotelId(e.target.value)}
+                >
+                  {loading
+                    ? "loading"
+                    : data &&
+                      data.map((hotel) => (
+                        <option key={hotel._id} value={hotel._id}>
+                          {hotel.name}
+                        </option>
+                      ))}
+                </select>
+              </div>
+              <button type="submit">Send</button>
             </form>
           </div>
         </div>
@@ -94,4 +86,4 @@ function NewUser({ inputs, title }) {
   );
 }
 
-export default NewUser;
+export default NewRoom;

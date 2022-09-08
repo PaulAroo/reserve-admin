@@ -1,25 +1,17 @@
-import "./newhotel.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import axios from "axios";
-import axiosInstance from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { hotelInputs } from "../../formSource";
 
-import useFetch from "../../customHooks/useFetch";
-
+import "./newhotel.scss";
+import axios from "axios";
 import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import axiosInstance from "../../axios";
 import FormLabel from "@mui/material/FormLabel";
-
-import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import RadioGroup from "@mui/material/RadioGroup";
+import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../components/sidebar/Sidebar";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 
 function NewHotel() {
   const navigate = useNavigate();
@@ -28,15 +20,6 @@ function NewHotel() {
   const [hotelInfo, setHotelInfo] = useState({
     featured: false,
   });
-
-  const imagesAreSelected = !!files.length;
-
-  // const { data, loading } = useFetch("/rooms");
-
-  const handleRoomSelection = (e, newValue) => {
-    const rooms = newValue.map((room) => room._id);
-    setHotelInfo((prev) => ({ ...prev, rooms }));
-  };
 
   const handleChange = (e) => {
     setHotelInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -65,7 +48,7 @@ function NewHotel() {
         photos: imgList,
       };
 
-      const res = await axiosInstance.post("/hotels", newHotel);
+      await axiosInstance.post("/hotels", newHotel);
       navigate("/hotels");
       setLoading(false);
     } catch (error) {
@@ -74,8 +57,7 @@ function NewHotel() {
     }
   };
 
-  // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-  // const checkedIcon = <CheckBoxIcon fontSize="small" />;
+  const imagesAreSelected = !!files.length;
 
   return (
     <div className="newHotel">
@@ -156,34 +138,6 @@ function NewHotel() {
                   />
                 </RadioGroup>
               </div>
-              {/* <div className="roomChoices">
-                <Autocomplete
-                  limitTags={2}
-                  multiple
-                  id="rooms"
-                  openOnFocus
-                  options={data}
-                  disableCloseOnSelect
-                  className="mui_autocomplete"
-                  onChange={handleRoomSelection}
-                  getOptionLabel={(option) => option.title}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 4 }}
-                        checked={selected}
-                      />
-                      {option.title}
-                    </li>
-                  )}
-                  style={{ width: 500 }}
-                  renderInput={(params) => (
-                    <TextField fullWidth {...params} label="Rooms" />
-                  )}
-                />
-              </div> */}
               <button
                 disabled={!imagesAreSelected}
                 className="subbtn"

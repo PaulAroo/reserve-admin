@@ -35,7 +35,7 @@ function NewUser() {
         img: url,
       };
 
-      const res = await axiosInstance.post("/auth/register", newUser);
+      await axiosInstance.post("/auth/register", newUser);
       navigate("/users");
     } catch (error) {
       console.log(error);

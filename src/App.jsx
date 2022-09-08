@@ -6,18 +6,19 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import NewUser from "./pages/new-user/NewUser";
+import NewRoom from "./pages/new-Room/NewRoom";
+import NewHotel from "./pages/new-Hotel/NewHotel";
+
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import { hotelInputs, roomInputs, userInputs } from "./formSource";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/auth-context";
 import { hotelColumns, roomColumns, userColumns } from "./datatablesource";
-import NewHotel from "./pages/new-Hotel/NewHotel";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -87,7 +88,7 @@ function App() {
                 }
               />
             </Route>
-            {/* <Route path="rooms">
+            <Route path="rooms">
               <Route
                 index
                 element={
@@ -108,11 +109,11 @@ function App() {
                 path="new"
                 element={
                   <ProtectedRoute>
-                    <NewUser inputs={productInputs} title="Add New Product" />
+                    <NewRoom />
                   </ProtectedRoute>
                 }
               />
-            </Route> */}
+            </Route>
           </Route>
         </Routes>
       </Router>

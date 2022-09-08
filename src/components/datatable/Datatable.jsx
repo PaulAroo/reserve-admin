@@ -1,10 +1,9 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { userColumns } from "../../datatablesource";
 import { Link, useLocation } from "react-router-dom";
 
-import axios from "../../axios";
+import axios from "../../axios/index";
 import useFetch from "../../customHooks/useFetch";
 
 function Datatable({ columns }) {
@@ -20,7 +19,7 @@ function Datatable({ columns }) {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(`/${path}/${id}`);
+      await axios.delete(`/${path}/${id}`);
       setUserList(userList.filter((item) => item._id !== id));
     } catch (error) {
       console.log(error);
@@ -54,7 +53,7 @@ function Datatable({ columns }) {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        add new {path}
+        {path}
         <Link to={`/${path}/new`} className="link">
           Add New
         </Link>
