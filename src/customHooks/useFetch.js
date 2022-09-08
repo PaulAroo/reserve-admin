@@ -18,7 +18,7 @@ export default function useFetch(url) {
       setLoading(false);
     };
     fetchData();
-  }, [url]);
+  }, []);
 
   const reFetch = async () => {
     setLoading(true);

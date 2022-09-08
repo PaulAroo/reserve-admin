@@ -31,7 +31,6 @@ function NewRoom() {
     }
   };
 
-  console.log(roomInfo);
   return (
     <div className="newRoom">
       <Sidebar />
@@ -69,12 +68,18 @@ function NewRoom() {
                 >
                   {loading
                     ? "loading"
-                    : data &&
-                      data.map((hotel) => (
-                        <option key={hotel._id} value={hotel._id}>
-                          {hotel.name}
-                        </option>
-                      ))}
+                    : data && (
+                        <>
+                          <option defaultChecked value="">
+                            Choose a hotel
+                          </option>
+                          {data.map((hotel) => (
+                            <option key={hotel._id} value={hotel._id}>
+                              {hotel.name}
+                            </option>
+                          ))}
+                        </>
+                      )}
                 </select>
               </div>
               <button type="submit">Send</button>

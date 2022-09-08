@@ -1,5 +1,5 @@
 .App.dark {
-  background-color: #111;
+  background-color: rgb(0, 12, 20);
   color: rgb(220 220 220);
 
   .chartGrid {
@@ -7,7 +7,7 @@
   }
 
   .table {
-    background-color: #111;
+    background-color: rgb(0, 12, 20);
 
     .tableCell {
       color: gray;
@@ -17,7 +17,7 @@
   .navbar {
     color: #999;
     border-color: #333;
-    background-color: #111;
+    background-color: rgb(0, 12, 20);
 
     .search {
       border-color: gray;
@@ -25,7 +25,7 @@
   }
 
   .sidebar {
-    background-color: #111;
+    background-color: rgb(0, 12, 20);
     border-color: #333;
 
     .top {
