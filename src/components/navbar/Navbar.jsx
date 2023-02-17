@@ -9,9 +9,9 @@ import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlin
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 
-import { useContext, useState } from "react";
-import { DarkModeContext } from "../../context/darkModeContext";
 import { useEffect } from "react";
+import { useContext, useRef, useState } from "react";
+import { DarkModeContext } from "../../context/darkModeContext";
 
 function Navbar() {
   const [searchInputFocus, setSearchInputFocus] = useState(false);
@@ -20,13 +20,17 @@ function Navbar() {
   const { darkMode, dispatch } = useContext(DarkModeContext);
 
   const requestFullScreen = () => {
-    const isInFullscreen = !!document.fullscreenElement;
-    isInFullscreen
+    !!document.fullscreenElement
       ? document.exitFullscreen()
       : document.body.requestFullscreen();
-
-    setIsFullScreenEnabled((prev) => !prev);
   };
+
+  useEffect(() => {
+    document.onfullscreenchange = () => {
+      setIsFullScreenEnabled(!!document.fullscreenElement);
+    };
+    return () => (document.onfullscreenchange = undefined);
+  }, []);
 
   return (
     <div className="navbar">
@@ -47,30 +51,39 @@ function Navbar() {
           </div>
           <div className="item" onClick={() => dispatch({ type: "TOGGLE" })}>
             {darkMode ? (
-              <LightModeIcon className="icon" />
+              <LightModeIcon titleAccess="light" className="icon" />
             ) : (
-              <DarkModeOutlinedIcon className="icon" />
+              <DarkModeOutlinedIcon titleAccess="dark" className="icon" />
             )}
           </div>
           <div onClick={requestFullScreen} className="item">
             {isFullscreenEnabled ? (
-              <FullscreenExitOutlinedIcon className="icon" />
+              <FullscreenExitOutlinedIcon
+                titleAccess="exit fullscreen"
+                className="icon"
+              />
             ) : (
-              <FullscreenIcon className="icon" />
+              <FullscreenIcon titleAccess="fullscreen" className="icon" />
             )}
           </div>
           <div className="item">
-            <NotificationsNoneOutlinedIcon className="icon" />
+            <NotificationsNoneOutlinedIcon
+              titleAccess="notifications"
+              className="icon"
+            />
             <div className="counter">1</div>
           </div>
           <div className="item">
-            <ChatBubbleOutlineOutlinedIcon className="icon" />
+            <ChatBubbleOutlineOutlinedIcon
+              titleAccess="messages"
+              className="icon"
+            />
             <div className="counter">2</div>
           </div>
           <div className="item">
             <ListOutlinedIcon className="icon" />
           </div>
-          <div className="item">
+          <div className="item" title="profile">
             <img
               src="https://i.ibb.co/xGWh0Ry/profile.jpg"
               alt=""
