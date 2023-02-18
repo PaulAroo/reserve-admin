@@ -32,7 +32,7 @@ function App() {
   };
   return (
     <div className={`App ${darkMode ? "dark" : ""}`}>
-      <Router>
+      <Router basename="/reserve-admin">
         <Routes>
           <Route path="/">
             <Route
